@@ -3,6 +3,7 @@ module github.com/atadzan/playground
 go 1.19
 
 require (
+	github.com/kolesa-team/go-webp v1.0.4
 	github.com/minio/minio-go/v7 v7.0.52
 	github.com/valyala/fasthttp v1.47.0
 )
@@ -24,6 +25,6 @@ require (
 	golang.org/x/crypto v0.7.0 // indirect
 	golang.org/x/net v0.8.0 // indirect
 	golang.org/x/sys v0.6.0 // indirect
-	golang.org/x/text v0.8.0 // indirect
+	golang.org/x/text v0.9.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 )

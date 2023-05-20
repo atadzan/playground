@@ -7,7 +7,6 @@ import (
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 	"github.com/valyala/fasthttp"
-	"io"
 	"log"
 	"time"
 )
@@ -57,10 +56,9 @@ func (s *Minio) UploadImage(path string, response *fasthttp.Response) error {
 	return nil
 }
 
-func (s *Minio) UploadConvertedImage(path string, reader io.Reader) error {
-	buf := new(bytes.Buffer)
-	buf.ReadFrom(reader)
-	_, err := s.storage.PutObject(context.Background(), "videos", path, reader, int64(buf.Len()), minio.PutObjectOptions{
+func (s *Minio) UploadConvertedImage(bucket, path string, body []byte) error {
+
+	_, err := s.storage.PutObject(context.Background(), bucket, path, bytes.NewReader(body), int64(len(body)), minio.PutObjectOptions{
 		ContentType: "image/webp",
 	})
 	if err != nil {
