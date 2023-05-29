@@ -72,3 +72,94 @@ func ConvertJpgToWebpFromResponseBody(body []byte, outputPath string) error {
 	}
 	return nil
 }
+
+func EncodeToHEVCBest() error {
+	cmd := exec.Command(
+		"ffmpeg",
+		"-i",
+		"/home/belet/test/new/Oppenheimer-Trailer.mp4",
+		"-c:v",
+		"libvpx-vp9",
+		"-deadline",
+		"best",
+		"vp9-best.webm",
+	)
+	// Cmd 2
+	//cmd := exec.Command(
+	//	"ffmpeg",
+	//	"-i",
+	//	"/home/belet/test/new/Oppenheimer-Trailer.mp4",
+	//	"-c:v",
+	//	"libvpx-vp9",
+	//	"-deadline",
+	//	"good",
+	//	"vp9-good.webm",
+	//)
+
+	// Cmd 2
+	//cmd := exec.Command(
+	//	"ffmpeg",
+	//	"-i",
+	//	"/home/belet/test/new/Oppenheimer-Trailer.mp4",
+	//	"-c:v",
+	//	"libvpx-vp9",
+	//	"vp9-default.webm",
+	//)
+
+	// Adding response body to buffer of executing command
+
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	if err := cmd.Run(); err != nil {
+		log.Println(err.Error())
+		return err
+	}
+	return nil
+}
+
+func EncodeToHEVCGood() error {
+	fmt.Println("Deadline Good started")
+	cmd := exec.Command(
+		"ffmpeg",
+		"-i",
+		"/home/belet/test/new/Oppenheimer-Trailer.mp4",
+		"-c:v",
+		"libvpx-vp9",
+		"-deadline",
+		"good",
+		"vp9-good.webm",
+	)
+
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	if err := cmd.Run(); err != nil {
+		log.Println(err.Error())
+		return err
+	}
+	return nil
+}
+func EncodeToHEVCDefault() error {
+	fmt.Println("Started default")
+
+	cmd := exec.Command(
+		"ffmpeg",
+		"-i",
+		"/home/belet/test/new/Oppenheimer-Trailer.mp4",
+		"-c:v",
+		"libvpx-vp9",
+		"vp9-default.webm",
+	)
+
+	// Adding response body to buffer of executing command
+
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	if err := cmd.Run(); err != nil {
+		log.Println(err.Error())
+		return err
+	}
+	return nil
+}
