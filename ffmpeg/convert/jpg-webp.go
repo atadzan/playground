@@ -54,8 +54,6 @@ func ConvertJpgToWebpFromResponseBody(body []byte, outputPath string) error {
 		"-",
 		"-c:v",
 		"libwebp",
-		"-pix_fmt",
-		"yuv420p",
 		"-f",
 		"webp",
 		outputPath,

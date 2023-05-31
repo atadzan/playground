@@ -10,6 +10,7 @@ require (
 )
 
 require (
+	github.com/alexedwards/argon2id v0.0.0-20230305115115-4b3c3280a736 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/confluentinc/confluent-kafka-go/v2 v2.1.1 // indirect

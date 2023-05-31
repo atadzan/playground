@@ -16,9 +16,9 @@ type Minio struct {
 }
 
 func InitMinio() (Minio, error) {
-	endpoint := "localhost:9000"
-	accessKeyId := "minio_admin"
-	secretAccessKey := "minioAdmin"
+	endpoint := "localhost:9093"
+	accessKeyId := "beletstorage"
+	secretAccessKey := "beletstorage"
 
 	useSSL := false
 
@@ -76,4 +76,13 @@ func (s *Minio) GenerateUploadUrl(bucket, filePath string) (string, error) {
 		log.Println("error while generating preSigned url. Error: ", err.Error())
 	}
 	return preSignedUrl.String(), nil
+}
+
+func (s *Minio) CreateBucket() error {
+	s.storage.MakeBucket(context.Background(), "test-bucket", minio.MakeBucketOptions{})
+	if err := s.storage.SetBucketPolicy(context.Background(), "test-bucket", `{"Version": "2012-10-17","Statement": [{"Action": ["s3:GetObject"],"Effect": "Allow","Principal": {"AWS": ["*"]},"Resource": ["arn:aws:s3:::test-bucket/*"],"Sid": ""}]}`); err != nil {
+		log.Println(err.Error())
+		return err
+	}
+	return nil
 }
