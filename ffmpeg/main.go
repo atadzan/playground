@@ -1,10 +1,8 @@
 package main
 
 import (
-	"fmt"
-	image "github.com/atadzan/playground/ffmpeg/convert"
 	"log"
-	"time"
+	"os"
 )
 
 //func main() {
@@ -59,21 +57,26 @@ import (
 //}
 
 func main() {
-	start := time.Now()
-	if err := image.EncodeToHEVCGood(); err != nil {
-		log.Println("error occured. Error: ", err.Error())
+	if err := os.RemoveAll("assets/test/test.tx"); err != nil {
+		log.Println(err.Error())
 		return
 	}
-	duration := time.Since(start)
 
-	fmt.Println("Executed time(good): ", duration)
-
-	start1 := time.Now()
-	if err := image.EncodeToHEVCDefault(); err != nil {
-		log.Println("error occured. Error: ", err.Error())
-		return
-	}
-	duration1 := time.Since(start1)
-
-	fmt.Println("Executed time(default): ", duration1)
+	//start := time.Now()
+	//if err := image.EncodeToHEVCGood(); err != nil {
+	//	log.Println("error occured. Error: ", err.Error())
+	//	return
+	//}
+	//duration := time.Since(start)
+	//
+	//fmt.Println("Executed time(good): ", duration)
+	//
+	//start1 := time.Now()
+	//if err := image.EncodeToHEVCDefault(); err != nil {
+	//	log.Println("error occured. Error: ", err.Error())
+	//	return
+	//}
+	//duration1 := time.Since(start1)
+	//
+	//fmt.Println("Executed time(default): ", duration1)
 }

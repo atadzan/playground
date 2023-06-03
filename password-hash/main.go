@@ -12,7 +12,9 @@ func main() {
 		Iterations:  4,
 		Parallelism: 4,
 		SaltLength:  16,
-		KeyLength:   32}
+		KeyLength:   32,
+	}
+
 	hash, err := argon2id.CreateHash("helloworld", p)
 	if err != nil {
 		log.Println(err.Error())
@@ -25,5 +27,5 @@ func main() {
 		log.Println(err.Error())
 	}
 
-	fmt.Println("Math", match)
+	fmt.Println("Match", match)
 }

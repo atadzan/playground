@@ -1,0 +1,66 @@
+version: '3.3'
+services:
+#  db:
+#    image: postgres:14.1-alpine
+#    container_name: db
+#    restart: always
+#    environment:
+#      - POSTGRES_USER=tmtube_admin
+#      - POSTGRES_PASSWORD=3Qv@e8U0ImT
+#      - POSTGRES_DB=tmtube
+#    ports:
+#      - '5454:5432'
+#    volumes:
+#      - db-storage:/var/lib/postgresql/data
+#  minio:
+#    build:
+#      context: ../../
+#      dockerfile: ./deployment/docker/minio/Dockerfile
+#    ports:
+#      - '9001:9000'
+#      - '9091:9090'
+#    depends_on:
+#      - db
+
+#  cache:
+#    container_name: cache
+#    build:
+#      context: ../../
+#      dockerfile: ./deployment/docker/redis/Dockerfile
+#    restart: always
+#    ports:
+#      - '6385:6379'
+#    volumes:
+#      - cache:/data
+
+#  broker:
+#    container_name: broker
+#    build:
+#      context: ../../
+#      dockerfile: ./deployment/docker/rabbitmq/Dockerfile
+#    environment:
+#      - RABBITMQ_DEFAULT_USER=rabbit_admin
+#      - RABBITMQ_DEFAULT_PASS=rabbitPassword
+#    ports:
+#      - '5687:5672'
+#      - '5688:15672'
+#    restart: on-failure
+
+  centrifugo:
+    container_name: centrifugo
+    image: centrifugo/centrifugo:v4
+    volumes:
+      - ./centrifugo/centrifugo.yaml:/centrifugo/config.yaml
+    command: centrifugo -c config.yaml
+    ports:
+      - '8000:8000'
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+
+
+#volumes:
+#  storage:
+#  db-storage:
+#  cache:
