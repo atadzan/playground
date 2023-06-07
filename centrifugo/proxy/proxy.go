@@ -14,7 +14,13 @@ type requestBody struct {
 	Encoding  string `json:"encoding"`
 	User      string `json:"user"`
 	Channel   string `json:"channel"`
-	Data      string `json:"data"`
+	Data      data   `json:"data"`
+}
+
+type data struct {
+	Process string `json:"process"`
+	Message string `json:"message"`
+	Status  string `json:"status"`
 }
 
 type SuccessResponse struct {
