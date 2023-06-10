@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"github.com/atadzan/playground/log/hello"
 	"log"
@@ -25,6 +26,7 @@ func main() {
 	log.Println("Log me here")
 
 	// Runtime caller which shows where it was called. It shows file path, called line and ok
-	_, file, line, ok := runtime.Caller(0)
-	fmt.Println("File:", file, "\nLine:", line, "\nok:", ok)
+	_, file, line, _ := runtime.Caller(0)
+
+	fmt.Printf("Error: %s:%d %v \n", file, line, errors.New("invalid input"))
 }
