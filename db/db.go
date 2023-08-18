@@ -157,7 +157,6 @@ func updateMultiValues(ctx context.Context, db *pgx.Conn) error {
 }
 
 func updateByTx(ctx context.Context, db *pgx.Conn) error {
-
 	tx, err := db.Begin(ctx)
 	if err != nil {
 		log.Println(err)
