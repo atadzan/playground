@@ -9,6 +9,10 @@ import (
 	"time"
 )
 
+const (
+	updateRows = 1000
+)
+
 func connect(ctx context.Context) (*pgx.Conn, error) {
 	dbURL := fmt.Sprintf("postgres://tmtube_admin:3Qv@e8U0ImT@localhost:5454/tmtube?sslmode=disable")
 	return pgx.Connect(ctx, dbURL)
@@ -109,8 +113,9 @@ func insertCopyFrom(ctx context.Context, db *pgx.Conn) error {
 /* UPDATE FUNCTIONS */
 func batchUpdate(ctx context.Context, db *pgx.Conn) error {
 	batch := &pgx.Batch{}
+	//batch.Queue("SELECT 1/0")
+	for i := 0; i < updateRows; i++ {
 
-	for i := 0; i < 1000; i++ {
 		batch.Queue("UPDATE test_table SET title=$1", fmt.Sprintf("batch-%d", i))
 	}
 	startTime := time.Now()
@@ -125,22 +130,28 @@ func batchUpdate(ctx context.Context, db *pgx.Conn) error {
 }
 
 func updateByOne(ctx context.Context, db *pgx.Conn) error {
-	startTime := time.Now()
-	for i := 0; i < 1000; i++ {
-		_, err := db.Exec(ctx, "UPDATE test_table SET title=$1", fmt.Sprintf("updateByOne-%d", i))
-		if err != nil {
-			log.Println(err)
-			return err
-		}
+	//tx, err := db.Begin(ctx)
+	//if err != nil {
+	//	log.Println(err)
+	//}
+	//startTime := time.Now()
+	for i := 0; i < updateRows; i++ {
+		//_, err = tx.Exec(ctx, "UPDATE test_table SET title=$1", fmt.Sprintf("updateByOne-%d", i))
+		//if err != nil {
+		//	log.Println(err)
+		//	return err
+		//}
+		fmt.Println(fmt.Sprintf("UPDATE test_table SET title='updateByOne-%d';", i))
 	}
 
-	log.Println("Update via update by one elapsed time:", time.Since(startTime).Milliseconds(), "ms")
+	//log.Println("Update via update by one with tx elapsed time:", time.Since(startTime).Milliseconds(), "ms")
+	//_ = tx.Commit(ctx)
 	return nil
 }
 
 func updateMultiValues(ctx context.Context, db *pgx.Conn) error {
 	var rawValues []string
-	for i := 0; i < 5; i++ {
+	for i := 0; i < updateRows; i++ {
 		rawValues = append(rawValues, fmt.Sprintf("('updateMulti-%d')", i))
 	}
 	values := strings.Join(rawValues, ",")
@@ -163,8 +174,9 @@ func updateByTx(ctx context.Context, db *pgx.Conn) error {
 		return err
 	}
 	defer tx.Commit(ctx)
+
 	var rawValues []string
-	for i := 0; i < 5; i++ {
+	for i := 0; i < updateRows; i++ {
 		rawValues = append(rawValues, fmt.Sprintf("('updateTX-%d')", i))
 	}
 	values := strings.Join(rawValues, ",")
@@ -284,9 +296,14 @@ func main() {
 	}
 	defer db.Close(ctx)
 
+	//batchInsert(ctx, db)
+
 	//insertFunctions(ctx, db)
 
-	updateFunctions(ctx, db)
+	//updateFunctions(ctx, db)
+	//updateByOne(ctx, db)
+	//updateByTx(ctx, db)
+	batchUpdate(ctx, db)
 
 	//clearTable(ctx, db)
 }
